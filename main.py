@@ -1,18 +1,17 @@
-# This is a sample Python script.
+from fpdf import FPDF
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+class PDF(FPDF):
+    def header(self):
+        self.set_font('helvetica', style= 'B', size=20)
+        self.cell(0, 20, "Generated Report", border=1, align="C")
+        self.ln(20)
 
+    def footer(self):
+        self.set_y(-15)
+        self.set_font('helvetica', style= 'B', size=10)
+        self.cell(0, 10, f"Page {self.page_no()}/{{nb}}", align="C")
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
-
-
+pdf = PDF()
+pdf.add_page()
+pdf.set_font('helvetica', style= '', size=10)
+pdf.output("first_file.pdf")
