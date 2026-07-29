@@ -1,3 +1,4 @@
+import csv
 from fpdf import FPDF
 
 class PDF(FPDF):
@@ -17,14 +18,31 @@ def generate_pdf_from_text(file):
 
     filename_break = file.split(".")
     filename = filename_break[0]
+
     pdf = PDF()
     pdf.add_page()
     pdf.set_font('helvetica', style= '', size=10)
     pdf.multi_cell(0, 20, text, align="C")
     pdf.output(f"{filename}.pdf")
-    return file
 
-print(generate_pdf_from_text("text_file.txt"))
+
+def generate_pdf_from_csv(csv_file):
+    with open(csv_file, newline='', encoding='utf-8-sig', mode='r') as f:
+        data = list(csv.reader(f, delimiter=','))
+
+    pdf = PDF()
+    pdf.add_page()
+    pdf.set_font('helvetica', style= 'I', size=10)
+    with pdf.table() as table:
+        for data_row in data:
+            row = table.row()
+            for datum in data_row:
+                row.cell(datum)
+    pdf.output(f"{csv_file}.pdf")
+
+generate_pdf_from_csv("topics.csv")
+
+
 
 
 
