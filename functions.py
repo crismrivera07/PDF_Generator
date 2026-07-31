@@ -12,7 +12,7 @@ class PDF(FPDF):
         self.set_font('helvetica', style= 'B', size=10)
         self.cell(0, 10, f"Page {self.page_no()}/{{nb}}", align="C")
 
-def generate_pdf_from_text(file):
+"""def generate_pdf_from_text(file):
     with open(file) as f:
         text = f.read()
 
@@ -38,12 +38,14 @@ def generate_pdf_from_csv(csv_file):
             row = table.row()
             for datum in data_row:
                 row.cell(datum)
-    pdf.output(f"{csv_file}.pdf")
-
-generate_pdf_from_csv("topics.csv")
+    pdf.output(f"{csv_file}.pdf")"""
 
 
 
+def strip_extension(file):
+    broken_up_filename = file.split('.')
+    csv_extension = broken_up_filename.pop(-1)
+    return ".".join(broken_up_filename)
 
-
-
+print(strip_extension("text_file.txt"))
+print(strip_extension("topics.csv"))
