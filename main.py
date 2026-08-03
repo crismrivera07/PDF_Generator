@@ -36,6 +36,7 @@ while True:
         cleanfilename = strip_extension(user_response)
         finished_file = generate_pdf_from_csv(user_response, cleanfilename)
         time.sleep(1)
-
+        if finished_file is not None:
+            break
     else:
         breakpoint
