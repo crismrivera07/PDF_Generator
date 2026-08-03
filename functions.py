@@ -17,7 +17,7 @@ def generate_pdf_from_text(file, newfilename):
         with open(file) as f:
             text = f.read()
     except FileNotFoundError:
-        print("Oops, that file does not exist, please try again please")
+        print("Oops, that file does not exist, please try again! ")
         return 
 
     filename_break = file.split(".")
@@ -31,9 +31,13 @@ def generate_pdf_from_text(file, newfilename):
     return True 
 
 def generate_pdf_from_csv(csv_file, newfilename):
-    with open(csv_file, newline='', encoding='utf-8-sig', mode='r') as f:
-        data = list(csv.reader(f, delimiter=','))
-
+    try:
+        with open(csv_file, newline='', encoding='utf-8-sig', mode='r') as f:
+            data = list(csv.reader(f, delimiter=','))
+    except FileNotFoundError:
+        print("Oops, that file does not exist, pleas try again! ")
+        return 
+    
     pdf = PDF()
     pdf.add_page()
     pdf.set_font('helvetica', style= 'I', size=10)
