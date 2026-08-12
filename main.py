@@ -37,14 +37,15 @@ while True:
                 continue
             else:
                 print("Good luck, see you next time!")
-                break
+                break 
+            
        
     elif file_breakup[-1] == "csv":
         cleanfilename = strip_extension(user_response)
         finished_file = generate_pdf_from_csv(user_response, cleanfilename)
         time.sleep(1)
         if finished_file is not None:
-            break
+            break 
     else:
         another_response = input("Would you like to generate another file?(input y or n) ")
         user_last_response = input("Right now - Only .CSV & .TXT files are supported, if you do not have that file type, type 'E' to exit, or 'C' to try again! ")
