@@ -1,5 +1,6 @@
 import csv
 from fpdf import FPDF
+from pathlib import Path
 
 class PDF(FPDF):
     def header(self):
@@ -22,11 +23,14 @@ def generate_pdf_from_text(file, newfilename):
 
     filename_break = file.split(".")
     filename = filename_break[0]
+    folder = Path("/Users/crispy/PDF Reader/PDFs")
+    folder.mkdir(exist_ok=True)
     pdf = PDF()
     pdf.add_page()
     pdf.set_font('helvetica', style= '', size=10)
     pdf.multi_cell(0, 20, text, align="C")
-    pdf.output(f"{newfilename}.pdf")
+    new_path = folder / f"{newfilename}.pdf"
+    pdf.output(f"{new_path}") 
     print("\nHere is your text file, generated as a PDF file.")
     return True 
 
@@ -37,7 +41,9 @@ def generate_pdf_from_csv(csv_file, newfilename):
     except FileNotFoundError:
         print("Oops, that file does not exist, pleas try again! ")
         return 
-    
+
+    folder = Path("/Users/crispy/PDF Reader/PDFs")
+    folder.mkdir(exist_ok=True)
     pdf = PDF()
     pdf.add_page()
     pdf.set_font('helvetica', style= 'I', size=10)
@@ -46,8 +52,10 @@ def generate_pdf_from_csv(csv_file, newfilename):
             row = table.row()
             for datum in data_row:
                 row.cell(datum)
-    pdf.output(f"{newfilename}.pdf")
+    new_path = folder / f"{newfilename}.pdf"
+    pdf.output(f"{new_path}") 
     print("\nHere is your csv file, generated as a PDF file.")
+    return True
 
 def strip_extension(file):
     broken_up_filename = file.split('.')
