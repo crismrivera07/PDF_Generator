@@ -1,6 +1,7 @@
 import csv
 from fpdf import FPDF
 from pathlib import Path
+import os
 
 class PDF(FPDF):
     def header(self):
@@ -61,3 +62,12 @@ def strip_extension(file):
     broken_up_filename = file.split('.')
     extension = broken_up_filename.pop(-1)
     return ".".join(broken_up_filename)
+
+def file_check(file):
+    file_number = 1
+    if os.path.exists(f"{file}.pdf"):
+        while os.path.exists(f"{file}_{file_number}.pdf"):
+            file_number += 1
+        return f"{file}_{file_number}.pdf"
+    else:
+        return f"{file}.pdf"
