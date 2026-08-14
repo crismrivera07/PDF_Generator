@@ -2,8 +2,8 @@ from fpdf import FPDF
 import csv
 import time
 import os 
-from functions import generate_pdf_from_csv, generate_pdf_from_text, strip_extension
-
+from functions import generate_pdf_from_csv, generate_pdf_from_text, strip_extension, file_check
+from pathlib import Path
 
 class PDF(FPDF):
     def header(self):
@@ -16,11 +16,14 @@ class PDF(FPDF):
         self.set_font('helvetica', style= 'B', size=10)
         self.cell(0, 10, f"Page {self.page_no()}/{{nb}}", align="C")
 
+
 #Opening lines of program
 opener = "=" * 50 + "\n" +   "PDF GENERATOR PROGRAM".center(50)  + "\n" + "=" * 50 + "\nInput your filename, and the program will convert it to a PDF for you!"
 print(opener)
 
+
 time.sleep(1)
+file_number = 0
 
 
 while True:
@@ -29,7 +32,8 @@ while True:
     
     if file_breakup[-1] == "txt":
         cleanfilename = strip_extension(user_response)
-        finished_file = generate_pdf_from_text(user_response, cleanfilename)
+        check_file = file_check(cleanfilename)
+        finished_file = generate_pdf_from_text(user_response, check_file)
         time.sleep(1)
         if finished_file is not None:
             another_file = input("Would you like another file generated? (y or n) ")
@@ -39,13 +43,18 @@ while True:
                 print("Good luck, see you next time!")
                 break 
             
-       
     elif file_breakup[-1] == "csv":
         cleanfilename = strip_extension(user_response)
-        finished_file = generate_pdf_from_csv(user_response, cleanfilename)
+        check_file = file_check(cleanfilename)
+        finished_file = generate_pdf_from_csv(user_response, check_file)
         time.sleep(1)
         if finished_file is not None:
-            break 
+            another_file = input("Would you like another file generated? (y or n) ")
+            if another_file.lower() == 'y':
+                continue
+            else:
+                print("Good luck, see you next time!")
+                break 
     else:
         another_response = input("Would you like to generate another file?(input y or n) ")
         user_last_response = input("Right now - Only .CSV & .TXT files are supported, if you do not have that file type, type 'E' to exit, or 'C' to try again! ")
@@ -53,8 +62,4 @@ while True:
             continue
         else:
             print("Our apologies for not supporting that file, see you next time! ")
-            
-
-
-        
 
