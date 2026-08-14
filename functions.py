@@ -65,9 +65,9 @@ def strip_extension(file):
 
 def file_check(file):
     file_number = 1
-    if os.path.exists(f"{file}.pdf"):
-        while os.path.exists(f"{file}_{file_number}.pdf"):
+    if os.path.exists(f"PDFs/{file}.pdf"):
+        while os.path.exists(f"PDFs/{file}_v{file_number}.pdf"):
             file_number += 1
-        return f"{file}_{file_number}.pdf"
+        return f"{file}_v{file_number}"
     else:
-        return f"{file}.pdf"
+        return f"{file}"
